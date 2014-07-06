@@ -35,11 +35,17 @@ public class JSoupXMLDoSTest {
                 "]>\n" +
                 "<lolz>&lol9;</lolz>");
 
+        StringBuffer tooManyOpenTags = new StringBuffer();
+        for (int i=0;i < 20000; i++) {
+            tooManyOpenTags.append("<h1>boo");
+        }
+        attacks.add(tooManyOpenTags.toString());
+
         for (String attack : attacks) {
             Date now = new Date();
             String output = Jsoup.clean(attack, Whitelist.basic());
-            System.out.println(output);
             Date after = new Date();
+            System.out.println((after.getTime() - now.getTime()) / 1000);
             assert (after.getTime() - now.getTime()) < 1000;
         }
     }
